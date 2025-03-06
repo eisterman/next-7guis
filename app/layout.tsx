@@ -27,6 +27,7 @@ export default function RootLayout(
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           <li><Link href={"/1_counter"}>1. Counter</Link></li>
           <li><Link href={"/2_temperature_converter"}>2. Temperature Converter</Link></li>
+          <li><Link href={"/3_flight_booker"}>3. Flight Booker</Link></li>
         </ul>
       </div>
     </div>
