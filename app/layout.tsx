@@ -26,6 +26,7 @@ export default function RootLayout(
       <div className="drawer-side">
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           <li><Link href={"/1_counter"}>1. Counter</Link></li>
+          <li><Link href={"/2_temperature_converter"}>2. Temperature Converter</Link></li>
         </ul>
       </div>
     </div>
