@@ -29,6 +29,7 @@ export default function RootLayout(
           <li><Link href={"/2_temperature_converter"}>2. Temperature Converter</Link></li>
           <li><Link href={"/3_flight_booker"}>3. Flight Booker</Link></li>
           <li><Link href={"/4_timer"}>4. Timer</Link></li>
+          <li><Link href={"/4_1_timer_pause"}>4.1. Timer with Suspend</Link></li>
         </ul>
       </div>
     </div>

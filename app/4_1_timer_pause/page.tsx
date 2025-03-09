@@ -2,17 +2,29 @@
 
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, useRef } from "react";
 
-export default function Timer() {
+export default function TimerPause() {
   const [duration, setDuration] = useState(150);
   const [elapsed, setElapsed] = useState(0);
-  // In the example there is this logic, but on the problem description talk about suspending and resuming the timer.
-  // I'll make a second version with effective timer suspension.
   const elapsedSec = (Math.min(elapsed, duration) / 10).toFixed(1);
 
+  /*
+  This allows to separate the effect in two components:
+  1. an effect that update a reference with the new duration value
+  2. an effect onMount that use that reference without watch-dependency to update `elapsed`.
+  This extremely convoluted way to do things is the standard way to use a state value inside a callback into a onMount.
+   */
+  const durationRef = useRef(duration);
   useEffect(() => {
-    const interval = setInterval(() => setElapsed((p) => p + 1), 100);
+    durationRef.current = duration;
+  }, [duration]);
+
+  useEffect(() => {
+    const interval = setInterval(() => setElapsed((p) => {
+      if (p >= durationRef.current) return p;
+      return p + 1;
+    }), 100);
     return () => clearInterval(interval);
   }, []);
 
