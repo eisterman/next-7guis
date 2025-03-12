@@ -12,7 +12,19 @@ type Circle = {
 export default function CircleDrawer() {
   const { isDarkMode } = useDarkMode();
   const canvas = useRef<HTMLCanvasElement>(null);
-  const [circles, setCircles] = useState<Circle[]>([]);
+  // const [circles, setCircles] = useState<Circle[]>([]);
+  const [circleStates, setCircleStates] = useState<Circle[][]>([[]]);
+  const [actualState, setActualState] = useState<number>(0);
+
+  const circles = circleStates[actualState];
+
+  function setCircles(clbk: (prev: Circle[]) => Circle[], overwrite?: boolean) {
+    const overwrt = overwrite ?? false;
+    const newState = clbk(circles);
+    if (overwrt) setCircleStates((p) => [newState, ...p.slice(actualState + 1)]);
+    else setCircleStates((p) => [newState, ...p.slice(actualState)]);
+    setActualState(0);
+  }
 
   const [selectedCircle, setSelectedCircle] = useState<number | null>(null);
 
@@ -71,11 +83,14 @@ export default function CircleDrawer() {
     dialog.current?.showModal();
   }
 
+  const [overwritingState, setOverwritingState] = useState<boolean>(false);
+
   function radInputOnChange(e: ChangeEvent<HTMLInputElement>) {
     setCircles((cir) => Array.from(cir.entries().map(([i, c]) => {
       if (i === selectedCircle) return { ...c, r: Number(e.target.value) };
       else return c;
-    })));
+    })), overwritingState);
+    if (!overwritingState) setOverwritingState(true);
   }
 
   const [changingRad, setChangingRad] = useState(false);
@@ -98,6 +113,15 @@ export default function CircleDrawer() {
   function onDialogClose() {
     setChangingRad(false);
     setSelectedCircle(null);
+    setOverwritingState(false);
+  }
+
+  function undo() {
+    if (actualState < circleStates.length - 1) setActualState((v) => ++v);
+  }
+
+  function redo() {
+    if (actualState > 0) setActualState((v) => --v);
   }
 
   return (
@@ -105,8 +129,8 @@ export default function CircleDrawer() {
       <div className={"card-body"}>
         <h2 className={"card-title"}>6. Circle Drawer</h2>
         <div className={"flex justify-center gap-2"}>
-          <button className={"btn btn-sm"}>Undo</button>
-          <button className={"btn btn-sm"}>Redo</button>
+          <button className={"btn btn-sm"} onClick={undo}>Undo</button>
+          <button className={"btn btn-sm"} onClick={redo}>Redo</button>
         </div>
         <canvas ref={canvas} width={400} height={200} className={"border w-[400px] h-[200px]"} onClick={onCanvasClick}/>
         <dialog ref={dialog} className="modal backdrop:hidden" onClose={onDialogClose}>
