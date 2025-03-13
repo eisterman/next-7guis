@@ -30,6 +30,7 @@ export default function RootLayout(
           <li><Link href={"/3_flight_booker"}>3. Flight Booker</Link></li>
           <li><Link href={"/4_timer"}>4. Timer</Link></li>
           <li><Link href={"/4_1_timer_pause"}>4.1. Timer with Suspend</Link></li>
+          <li><Link href={"/4_2_timer_react_way"}>4.2. Timer the React Way</Link></li>
           <li><Link href={"/5_crud"}>5. CRUD</Link></li>
           <li><Link href={"/6_circle_drawer"}>6. Circle Drawer</Link></li>
         </ul>
