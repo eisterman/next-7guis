@@ -33,6 +33,7 @@ export default function RootLayout(
           <li><Link href={"/4_2_timer_react_way"}>4.2. Timer the React Way</Link></li>
           <li><Link href={"/5_crud"}>5. CRUD</Link></li>
           <li><Link href={"/6_circle_drawer"}>6. Circle Drawer</Link></li>
+          <li><Link href={"/6_1_circle_drawer_react_way"}>6.1. Circle Drawer the React Way</Link></li>
         </ul>
       </div>
     </div>
